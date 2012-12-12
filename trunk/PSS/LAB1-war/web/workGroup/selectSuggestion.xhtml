@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Редактирование инициатив
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <pou:growl id="growl" autoUpdate="true"/>
+                    <h:outputLabel value="Выбериите параметры поиска"/>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel value="#{fieldNames.status}"/>
+                        <h:selectOneMenu value="#{suggestionController.suggestion.enumStatus}">
+                            <f:selectItem noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems value="#{suggestionController.suggestion.enumStatus.statusesForSuggestion}"
+                                           var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{fieldNames.department}"/>
+                        <h:selectOneMenu value="#{suggestionController.suggestion.initiator.department}" >
+                            <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel=""/>
+                            <f:selectItems value="#{departmentController.listDepartments}" var="department"
+                                           itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
+                        </h:selectOneMenu>
+                        
+                        <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
+                        <pou:calendar value="#{suggestionController.suggestion.dateOfReceipt}" id="date"  pattern="dd.MM.yyyy"/>  
+                        <h:message for="date"/>
+                    </h:panelGrid>
+                    <h:commandButton value="#{buttonNames.find}" action="#{suggestionController.select()}"/>
+                    <h:messages/>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

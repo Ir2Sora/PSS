@@ -1,0 +1,57 @@
+#heading {
+   padding: 20px;
+   height: 30px;
+   margin-bottom: 10px;
+   background: #dddddd;
+   border: 1px solid darkGray;
+    font-family: Arial,Helvetica,sans-serif;
+    font-style: normal;
+}
+
+#sidebarLeft {
+   border: thin solid lightGray;
+   padding: 5px;
+   width: 250px;
+   background: #eeeeee;
+}
+
+#content {
+   padding: 5px;
+   border: thin solid lightGray;
+   background: #fefeef;
+   position: absolute;
+   right: 8px;
+   left: 280px;
+   top: 90px;
+}
+
+.header {
+   font-size: 1.4em;
+   font-style: italic;
+   font-family: Palatino;
+   text-align: center;
+}
+
+
+
+.planetImageSelected {
+   padding: 5px;
+   text-align: center;
+   background: #fefeef;
+   border: thin solid lightGray;
+}
+
+.sidebarButton {
+    font-size: 13px;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    width: 240px;
+    height: 25px;
+    background-color: #cccccc;
+    position: relative;
+    border: solid 1px #cccccc;
+    vertical-align: middle;
+    text-indent: 1px;
+    background-position: center center;
+}

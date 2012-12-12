@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Просмотр своих инициатив
+            </ui:define>
+
+            <ui:define name="content">
+                <c:if test="#{empty viewScope.finded}">
+                    <c:set var="finded" value="#{flash.finded}" scope="view"/>
+                </c:if>
+                <pou:growl id="growl" autoUpdate="true"/>
+                <pou:accordionPanel value="#{viewScope.finded}" var="suggContr">
+                   
+                    <pou:tab title="#{suggContr.title}">  
+                        <h:form id="form">
+                            <h:panelGrid columns="2" id="grid">
+                                <h:outputText value="#{fieldNames.idSuggestion}"/>
+                                <h:outputText value="#{suggContr.suggestion.id}"/>
+                                <h:outputText value="#{fieldNames.status}"/>
+                                <h:outputText value="#{suggContr.suggestion.enumStatus.description}"/>
+                                <h:outputLabel value="#{fieldNames.problem}"/>
+                                <h:outputText value="#{suggContr.suggestion.problem}" rendered="#{not suggContr.suggestion.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.problem}" rendered="#{suggContr.suggestion.isNeedImprovement()}" disabled="#{not sugg.isNeedImprovement()}"/>
+                                <h:outputLabel value="#{fieldNames.solution}"/>
+                                <h:outputText value="#{suggContr.suggestion.solution}" rendered="#{not sugg.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.solution}" rendered="#{suggContr.suggestion.isNeedImprovement()}"/>
+                                <h:outputLabel value="#{fieldNames.result}"/>
+                                <h:outputText value="#{suggContr.suggestion.result}" rendered="#{not suggContr.suggestion.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.result}" rendered="#{suggContr.suggestion.isNeedImprovement()}"/>
+                                <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
+                                <h:outputText value="#{suggContr.suggestion.dateOfReceipt}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                </h:outputText>
+                                <h:outputLabel value="#{fieldNames.dateOfConsideration}"/>
+                                <h:outputText value="#{suggContr.suggestion.dateOfConsideration}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                </h:outputText>
+                                <h:outputLabel value="#{fieldNames.id_4i}"/>
+                            </h:panelGrid>
+                            <hr/><p/>
+                            <pou:commandButton value="#{buttonNames.submit}" action="#{suggContr.improve(suggContr.suggestion)}" 
+                                               update="form" process="@form" 
+                                               rendered="#{suggContr.suggestion.isNeedImprovement() or suggContr.suggestion.isRecommended()}"/>
+                            <hr/><p/>
+                            <pou:dataTable id="directionsTable" value="#{suggContr.suggestion.directions}" var="direction">
+                                
+                                <f:facet name="heading">
+                                    Направления
+                                </f:facet>
+                                
+                                <pou:column headerText="#{fieldNames.directionStatus}">    
+                                    <h:outputText value="#{direction.status.description}"/>
+                                </pou:column>
+                                
+                                <pou:column headerText="#{fieldNames.department}">
+                                    <h:outputText value="#{direction.department.departmentNumber} #{department.shortName}"/>
+                                </pou:column>
+                                
+                                <pou:column headerText="#{fieldNames.conclusion}">
+                                    <h:outputText id="conclusion" value="#{direction.conclusion}"/>
+                                </pou:column>
+                                
+                            </pou:dataTable>
+                            
+                        </h:form>
+                    </pou:tab>
+                    
+                </pou:accordionPanel>    
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

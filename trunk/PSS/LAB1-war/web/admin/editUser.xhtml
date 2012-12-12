@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Редактировать данные пользователя
+            </ui:define>
+
+            <ui:define name="content">
+                <c:if test="#{empty viewScope.finded}">
+                    <c:set var="finded" value="#{flash.finded}" scope="view"/>
+                </c:if>
+                <pou:growl autoUpdate="true"/>
+                <h:form>
+                    <h:panelGrid columns="2" id="grid">
+                        <h:outputText value="#{fieldNames.login}"/>
+                        <h:outputText value="#{viewScope.finded.login}"/>
+                        <h:outputText value="#{fieldNames.surname}"/>
+                        <pou:inputText value="#{viewScope.finded.surname}"/>
+                        <h:outputText value="#{fieldNames.firstName}"/>
+                        <pou:inputText value="#{viewScope.finded.firstName}"/>
+                        <h:outputText value="#{fieldNames.patronymic}"/>
+                        <pou:inputText value="#{viewScope.finded.patronymic}"/>
+                        <h:outputLabel value="#{fieldNames.department}"/>
+                        <pou:selectOneMenu value="#{viewScope.finded.department}">
+                            <f:selectItems value="#{PSSDAO.allDepartments}" var="department"
+                                           itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
+                        </pou:selectOneMenu>  
+                        <h:outputText value="#{fieldNames.email}"/>
+                        <pou:inputText value="#{viewScope.finded.email}"/>
+                        <h:outputText value="#{fieldNames.roles}"/>  
+                        <pou:selectManyCheckbox value="#{viewScope.finded.roles}">  
+                            <f:converter converterId="roleConverter"/>
+                            <f:selectItems value="#{viewScope.finded.allRoles}" var="role"
+                                           itemLabel="#{role.name()}" itemValue="#{role}"/>  
+                        </pou:selectManyCheckbox>  
+                    </h:panelGrid>
+                    <hr/><p/>
+                    <pou:commandButton value="#{buttonNames.save}" action="#{userBean.save(viewScope.finded)}" update="grid"/>
+                    <hr/><p/>
+                </h:form>
+            </ui:define>
+            
+        </ui:composition>
+
+    </body>
+</html>

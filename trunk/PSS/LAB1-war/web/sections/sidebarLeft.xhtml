@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <link href="./../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <ui:composition>
+            <h:form>
+                <h:panelGrid columns="1">
+                    <h:commandButton value="#{buttonNames.logout}" action="#{currentUser.logOut}" class="sidebarButton" 
+                                       immediate="true"/>
+                    <h:commandButton value="#{buttonNames.submitSuggestion}" action="/user/submitSuggestion.xhtml" 
+                                     immediate="true" class="sidebarButton" rendered="#{request.isUserInRole('user')}"/>
+                    <h:commandButton value="#{buttonNames.viewOwnSuggestions}" action="#{suggestionController.selectOwnSuggestions()}" 
+                                     immediate="true" class="sidebarButton" rendered="#{request.isUserInRole('user')}"/>
+                    <h:commandButton value="#{buttonNames.writePeerReview}" action="#{suggestionController.selectForwritePeerReview()}" 
+                                      rendered="#{request.isUserInRole('expert')}" immediate="true" class="sidebarButton"/>
+                    <h:commandButton value="#{buttonNames.editSuggestions}" action="#{suggestionController.selectSuggestions()}" 
+                                      rendered="#{request.isUserInRole('workGroup')}" immediate="true" class="sidebarButton"/>
+                    <h:commandButton value="#{buttonNames.editUser}" action="/admin/selectUser.xhtml" 
+                                      rendered="#{request.isUserInRole('admin')}" immediate="true" class="sidebarButton"/>
+                    <h:commandButton value="#{buttonNames.addNewDepartment}" action="/admin/addNewDepartment.xhtml" 
+                                      rendered="#{request.isUserInRole('admin')}" immediate="true" class="sidebarButton"/>
+                    <c:if test="${not empty currentUser}">
+                        <h:outputText value="${currentUser.numberOfUsers} человек online"/>
+                        <h:outputText value="${currentUser.user.login}"/>
+                    </c:if>
+                </h:panelGrid>
+            </h:form>
+        </ui:composition>
+    </h:body>
+</html>
+

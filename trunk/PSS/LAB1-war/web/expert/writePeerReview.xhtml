@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:pou="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Выберите инициативу
+            </ui:define>
+
+            <ui:define name="content">
+                <c:if test="#{empty viewScope.finded}">
+                    <c:set var="finded" value="#{flash.finded}" scope="view"/>
+                </c:if>
+                <pou:accordionPanel value="#{viewScope.finded}" var="sugg">
+                   
+                    <pou:tab title="#{sugg.title}">  
+                            <h:form id="form">
+                                <pou:growl id="growl" autoUpdate="true"/>
+                                <h:panelGrid columns="2" id="grid">
+                                    <h:outputText value="#{fieldNames.idSuggestion}"/>
+                                    <h:outputText value="#{sugg.id}"/>
+                                    <h:outputText value="#{fieldNames.login}"/>
+                                    <h:outputText value="#{sugg.initiator.login}"/>
+                                    <h:outputText value="#{fieldNames.fullName}"/>
+                                    <h:outputText value="#{sugg.initiator.firstName} 
+                                      #{sugg.initiator.surname} 
+                                      #{sugg.initiator.patronymic}"/>
+                                    <h:outputLabel value="#{fieldNames.problem}"/>
+                                    <h:outputText value="#{sugg.problem}" />
+                                    <h:outputLabel value="#{fieldNames.solution}"/>
+                                    <h:outputText value="#{sugg.solution}"/>
+                                    <h:outputLabel value="#{fieldNames.result}"/>
+                                    <h:outputText value="#{sugg.result}"/>
+                                    <h:outputLabel value="#{fieldNames.conclusion}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{sugg.directionByDepartmentOfCurrentUser.conclusion}" required="true"/>
+                                    <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
+                                    <h:outputText value="#{sugg.dateOfReceipt}">
+                                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                    </h:outputText>
+                                    <h:outputLabel value="#{fieldNames.dateOfConsideration}"/>
+                                    <h:outputText value="#{sugg.dateOfConsideration}">
+                                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                    </h:outputText>
+                                </h:panelGrid>
+                                <hr/><p/>
+                                <pou:commandButton value="#{buttonNames.submit}" action="#{suggestionBean.writePeerReview(sugg)}" ajax="false"/>
+                            </h:form>
+                        </pou:tab>
+                </pou:accordionPanel>              
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

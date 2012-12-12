@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Добавить новое подразделение
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <pou:growl id="growl"/>  
+                    <pou:panelGrid columns="2" id="panel">
+                        <f:facet name="header">
+                            Все поля обязательны для заполнения
+                        </f:facet>
+                        <h:outputLabel value="#{fieldNames.departmentNumber}" for="departmentNumber"/>
+                        <pou:inputText value="#{departmentBean.departmentNumber}" id="departmentNumber"
+                                       required="true" requiredMessage="Укажите номер подразделения"/>
+                        <h:outputLabel value="#{fieldNames.departmentShortName}" for="short_name"/>
+                        <pou:inputText value="#{departmentBean.shortName}" id="short_name"
+                                       required="true" requiredMessage="Укажите сокращенное название подразделения"/>
+                        <h:outputLabel value="#{fieldNames.departmentFullName}" for="full_name"/>
+                        <pou:inputText value="#{departmentBean.fullName}" id="full_name"
+                                       required="true" requiredMessage="Укажите полное название подразделения"/>
+                        <f:facet name="footer">
+                            <pou:commandButton value="#{buttonNames.add}" action="#{departmentBean.save()}" update="growl,panel"/>
+                        </f:facet>
+                    </pou:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

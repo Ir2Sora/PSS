@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./templates/masterLayout.xhtml">
+            <ui:define name="heading">
+                Регистрация
+            </ui:define>
+
+            <ui:define name="sidebarLeft">
+                <h:form>
+                    <h:commandButton value="#{buttonNames.login}" action="/user/index.xhtml?faces-redirect=true" 
+                                     immediate="true" class="sidebarButton"/>
+                    
+                </h:form>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form">
+                    <h:commandButton value="#{buttonNames.login}" action="#{userController.register()}" 
+                                     class="sidebarButton"/>
+                    <pou:growl id="growl"/>  
+                    <pou:panelGrid columns="2" id="panel">
+                        <f:facet name="header">
+                            Все поля обязательны для заполнения
+                        </f:facet>
+                        <h:outputLabel value="#{fieldNames.login}" for="login"/>
+                        <h:inputText value="#{userController.user.login}" id="login"
+                                       required="true" requiredMessage="Укажите логин"/>
+                        <h:outputLabel value="#{fieldNames.password}" for="password"/>
+                        <h:inputText value="#{userController.user.password}" id="password"
+                                       required="true" requiredMessage="Укажите пароль"/>
+                        <h:outputLabel value="#{fieldNames.firstName}" for="firstName"/>
+                        <h:inputText value="#{userController.user.firstName}" id="firstName"
+                                       required="true" requiredMessage="Укажите имя"/>
+                        <h:outputLabel value="#{fieldNames.surname}" for="surname"/>
+                        <h:inputText value="#{userController.user.surname}" id="surname"
+                                       required="true" requiredMessage="Укажите фамилию"/>
+                        <h:outputLabel value="#{fieldNames.patronymic}" for="patronymic"/>
+                        <h:inputText value="#{userController.user.patronymic}" id="patronymic"
+                                       required="true" requiredMessage="Укажите отчество"/>
+                        <h:outputLabel value="#{fieldNames.department}" for="department"/>
+                        <pou:selectOneMenu id="department" value="#{userController.user.department}">
+                            <f:selectItems value="#{departmentController.listDepartments}" var="department"
+                                           itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
+                        </pou:selectOneMenu>  
+                        <h:outputLabel value="#{fieldNames.email}" for="email"/>
+                        <h:inputText value="#{userController.user.email}" id="email"
+                                       required="true" requiredMessage="Укажите email"/>
+                        <f:facet name="footer">
+                            <pou:commandButton value="#{buttonNames.register}" action="#{userController.register()}" update="growl,panel" />
+                        </f:facet>
+                    </pou:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

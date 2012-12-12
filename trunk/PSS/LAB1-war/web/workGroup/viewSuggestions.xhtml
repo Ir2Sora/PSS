@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pou="http://primefaces.org/ui">
+    
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Редактирование инициатив
+            </ui:define>
+
+            <ui:define name="content">
+                
+                <c:if test="#{empty viewScope.finded}">
+                    <c:set var="finded" value="#{flash.finded}" scope="view"/>
+                </c:if>
+                <pou:growl id="growl" autoUpdate="true"/>
+                <pou:dialog id="modalDialog" widgetVar="dlg" modal="true" height="100">  
+                    <h:outputText value="Идет сохранение данных"/>  
+                </pou:dialog>  
+                <pou:accordionPanel value="#{viewScope.finded}" var="suggContr">
+                   
+                        <pou:tab title="#{suggContr.title}">
+                            <h:form id="form">
+                                <h:panelGrid columns="2" id="grid">
+                                    <h:outputText value="#{fieldNames.idSuggestion}"/>
+                                    <h:outputText value="#{suggContr.suggestion.id}"/>
+                                    <h:outputText value="#{fieldNames.login}"/>
+                                    <h:outputText value="#{suggContr.suggestion.initiator.login}"/>
+                                    <h:outputText value="#{fieldNames.fullName}"/>
+                                    <h:outputText value="#{suggContr.suggestion.initiator.surname} 
+                                      #{suggContr.suggestion.initiator.firstName} 
+                                      #{suggContr.suggestion.initiator.patronymic}"/>
+                                    <h:outputLabel value="#{fieldNames.status}"/>
+                                    <pou:selectOneMenu value="#{suggContr.suggestion.status}">
+                                        <f:selectItems value="#{suggContr.suggestion.enumStatus.statusesForSuggestion}"
+                                                       var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
+                                    </pou:selectOneMenu>
+                                    <h:outputLabel value="#{fieldNames.problem}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.problem}" />
+                                    <h:outputLabel value="#{fieldNames.solution}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.solution}"/>
+                                    <h:outputLabel value="#{fieldNames.result}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.result}"/>
+                                    <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
+                                    <h:outputText value="#{suggContr.suggestion.dateOfReceipt}">
+                                        <f:convertDateTime pattern="dd.MM.yyyy"/>
+                                    </h:outputText>
+                                    <h:outputLabel value="#{fieldNames.dateOfConsideration}"/>
+                                    <pou:calendar value="#{suggContr.suggestion.dateOfConsideration}" id="date"  pattern="dd.MM.yyyy"/>
+                                </h:panelGrid>
+                                
+                                <hr/><p/>
+                                <pou:commandButton value="#{buttonNames.save}" action="#{suggestionController.save(suggContr.suggestion)}" 
+                                                   update="grid" onstart="dlg.show()" oncomplete="dlg.hide()"/>
+                                <hr/><p/>
+                                
+                                <pou:dataTable id="directionsTable" value="#{suggContr.suggestion.directions}" var="direction">
+                                    
+                                    <f:facet name="heading">
+                                            Направления
+                                    </f:facet>
+                                    
+                                    <pou:column headerText="#{fieldNames.directionStatus}">                                        
+                                        <pou:selectOneMenu id="serviceStatus" value="#{direction.status}" disabled="#{direction.isRemove()}">
+                                            <f:selectItems value="#{suggContr.suggestion.enumStatus.statusesForDirection}"
+                                                           var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
+                                        </pou:selectOneMenu>  
+                                    </pou:column>
+                                    
+                                    <pou:column headerText="#{fieldNames.department}">
+                                        <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemove()}">
+                                            <f:selectItems value="#{PSSDAO.allDepartments}" var="department"
+                                                           itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
+                                        </pou:selectOneMenu>  
+                                    </pou:column>
+                                    
+                                    <pou:column headerText="#{fieldNames.conclusion}">
+                                        <pou:inputTextarea id="conclusion" rows="6" cols="60" value="#{direction.conclusion}" disabled="#{direction.isRemove()}"/>
+                                    </pou:column>
+                                    
+                                    <pou:column>
+                                        <pou:commandButton id="remove" value="#{buttonNames.removeDirection}" action="#{sugg.removeDirection(direction)}" update="directionsTable" ajax="false"/>
+                                    </pou:column>
+                                    
+                                </pou:dataTable>
+                                <pou:commandButton value="#{buttonNames.addNewDirection}" action="#{suggContr.suggestion.addDirection()}" update="directionsTable"/>
+                                </h:form>
+                        </pou:tab>  
+                         
+                    </pou:accordionPanel>
+                    
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

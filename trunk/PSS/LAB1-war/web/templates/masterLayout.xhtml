@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <f:view contentType="text/html; charset=UTF-8">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link href="./../resources/css/default.css" rel="stylesheet" type="text/css" />
+            <link href="./../resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+            <title><ui:insert name="windowTitle">Proposal Submission System</ui:insert></title>
+        </h:head>
+        
+        <h:body>
+            <f:loadBundle basename="bundles.buttonNames" var="buttonNames"/>
+            <f:loadBundle basename="bundles.fieldNames" var="fieldNames"/>
+            <div id="heading" class="header">
+                <ui:insert name="heading">
+                    Proposal Submission System
+                </ui:insert>
+            </div>
+            <div>
+                <div id="sidebarLeft">
+                    <ui:insert name="sidebarLeft">
+                        <ui:include src="/sections/sidebarLeft.xhtml"/>
+                    </ui:insert>
+                </div>
+                
+                <div id="content" class="content">
+                    <ui:insert name="content"/>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

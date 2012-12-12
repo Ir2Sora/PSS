@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui">
+    
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+
+    <body>
+
+        <ui:composition template="./../templates/masterLayout.xhtml">
+
+            <ui:define name="heading">
+                Подать инициативу
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form id="form" enctype="multipart/form-data">
+                    <pou:growl id="growl" autoUpdate="true"/>
+                    <h:panelGrid columns="3" id="grid">
+                        <h:outputLabel value="#{fieldNames.problem}"/>
+                        <pou:inputTextarea id="problem" rows="6" cols="80" value="#{suggestionController.suggestion.problem}"
+                                           required="true" requiredMessage="Укажите проблему" converter="latin1_to_UTF-8"/>
+                        <pou:message for="problem"/>
+                        <h:outputLabel value="#{fieldNames.solution}"/>
+                        <pou:inputTextarea id="solution" rows="6" cols="80" value="#{suggestionController.suggestion.solution}"
+                                         required="true" requiredMessage="Укажите решение" converter="latin1_to_UTF-8"/>
+                        <pou:message for="solution"/>
+                        <h:outputLabel value="#{fieldNames.result}"/>
+                        <pou:inputTextarea id="result" rows="6" cols="80" value="#{suggestionController.suggestion.result}"
+                                         required="true"  requiredMessage="Укажите результат" converter="latin1_to_UTF-8"/>
+                        <pou:message for="result"/>
+                    </h:panelGrid>
+                    <p>
+                        <pou:commandButton value="#{buttonNames.submit}" 
+                                           actionListener="#{suggestionController.submitSuggestion()}" 
+                                           ajax="false"
+                                           update="grid"/>
+                    </p>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
