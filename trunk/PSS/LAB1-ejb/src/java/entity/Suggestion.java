@@ -82,7 +82,6 @@ public class Suggestion implements Serializable {
     private User initiator;
 
     public Suggestion() {
-    //    id = -1;
         status = Status.NEW.name();
     }
 
@@ -113,8 +112,6 @@ public class Suggestion implements Serializable {
         this.initiator = initiator;
     }
     
-
-
     public Integer getId() {
         return id;
     }

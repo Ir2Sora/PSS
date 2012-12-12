@@ -26,7 +26,7 @@ import static utils.FacesUtils.sendGrowlMessage;
 public class SuggestionController implements Serializable {
 
     @Inject
-    private DAORemote dao;
+    private SuggestionFacadeLocal suggestionFacade;
     private Suggestion suggestion;
     @Inject
     private CurrentUserLocal currentUser;
@@ -49,24 +49,16 @@ public class SuggestionController implements Serializable {
     }
 
     public void submitSuggestion() {
-        try {
-            suggestion.setInitiator(currentUser.getUser());
-            suggestion.setDateOfReceipt(new Date());
-            dao.addSuggestion(suggestion);
-            suggestion = new Suggestion();
-            sendGrowlMessage("Инициатива успешно подана");
-        } catch (PSSDAOException ex) {
-            sendGrowlMessage("Ошибка. " + ex);
-        }
+        suggestion.setInitiator(currentUser.getUser());
+        suggestion.setDateOfReceipt(new Date());
+        suggestionFacade.create(suggestion);
+        suggestion = new Suggestion();
+        sendGrowlMessage("Инициатива успешно подана");
     }
 
     public void save(Suggestion sugg) {
-        try {
-            dao.saveSuggestion(sugg);
-            sendGrowlMessage("Изменения успешно сохранены");
-        } catch (PSSDAOException ex) {
-            sendGrowlMessage("Ошибка. " + ex);
-        }
+        suggestionFacade.edit(sugg);
+        sendGrowlMessage("Изменения успешно сохранены");
     }
 
     public void removeDirection(Direction direction) {
@@ -106,59 +98,40 @@ public class SuggestionController implements Serializable {
     }
 
     public String improve(Suggestion sugg) {
-        if (sugg.getEnumStatus() == Status.RequireImprovement) {
-            sugg.setEnumStatus(Status.Improved);
-        } else if (sugg.getEnumStatus() == Status.Recommended) {
-            sugg.setEnumStatus(Status.Registered);
-        }
+        sugg.setEnumStatus(Status.Improved);
         save(sugg);
         return null;
     }
 
     public String selectForwritePeerReview() {
-        try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            Collection finded = dao.getSuggestionsByDirectionStatusAndDepartment(Status.RequestedPeerRewiew, currentUser.getUser().getDepartment());
-            Flash flash = ec.getFlash();
-            flash.putNow("finded", finded);
-            return "/expert/writePeerReview";
-        } catch (PSSDAOException ex) {
-            sendGrowlMessage("Ошибка. " + ex);
-            return "";
-        }
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        Collection finded = suggestionFacade.getForWritePeerReview(currentUser.getUser().getDepartment());
+        Flash flash = ec.getFlash();
+        flash.putNow("finded", finded);
+        return "/expert/writePeerReview";
     }
 
     public String selectOwnSuggestions() {
-        try {
-            Collection<Suggestion> finded = dao.getSuggestionsByInitiator(getCurrentUserLogin());
-            List<SuggestionController> listControllers = new ArrayList();
-            for (Suggestion sugg : finded) {
-                listControllers.add(new SuggestionController(sugg));
-            }
-            Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
-            flash.putNow("finded", listControllers);
-            return "/user/viewOwnSuggestions";
-        } catch (PSSDAOException ex) {
-            sendGrowlMessage("Ошибка. " + ex);
-            return "";
+        Collection<Suggestion> finded = suggestionFacade.findByInitiator(getCurrentUserLogin());
+        List<SuggestionController> listControllers = new ArrayList();
+        for (Suggestion sugg : finded) {
+            listControllers.add(new SuggestionController(sugg));
         }
+        Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
+        flash.putNow("finded", listControllers);
+        return "/user/viewOwnSuggestions";
     }
 
     public String select() {
-        try {
-            ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-            Collection<Suggestion> finded = dao.getSuggestionsByStatusDepartmentDirectionStatusAndDateOfReceipt(suggestion.getEnumStatus(), currentUser.getUser().getDepartment(), null, suggestion.getDateOfReceipt());
-            List<SuggestionController> listControllers = new ArrayList();
-            for (Suggestion sugg : finded) {
-                listControllers.add(new SuggestionController(sugg));
-            }
-            Flash flash = ec.getFlash();
-            flash.putNow("finded", listControllers);
-            return "/workGroup/viewSuggestions";
-        } catch (PSSDAOException ex) {
-            sendGrowlMessage("Ошибка. " + ex);
-            return null;
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        Collection<Suggestion> finded = suggestionFacade.getForWorkGroup(suggestion);
+        List<SuggestionController> listControllers = new ArrayList();
+        for (Suggestion sugg : finded) {
+            listControllers.add(new SuggestionController(sugg));
         }
+        Flash flash = ec.getFlash();
+        flash.putNow("finded", listControllers);
+        return "/workGroup/viewSuggestions";
     }
 
     public String selectSuggestions() {

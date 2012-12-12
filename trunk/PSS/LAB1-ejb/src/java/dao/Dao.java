@@ -91,15 +91,6 @@ public class Dao implements DAORemote{
         connection.prepareStatement("SET NAMES 'utf8'").execute();
     }
     
-    @Override
-    public void saveSuggestion(Suggestion suggestion) throws PSSDAOException {
-        em.merge(suggestion);
-    }
-
-    public void addSuggestion(Suggestion suggestion) throws PSSDAOException {
-        em.merge(suggestion);
-    }
-    
     private Collection<Suggestion> getSuggestionsFromPreparedStatement(PreparedStatement preparedStatement) throws PSSDAOException, SQLException{
         ResultSet resultSet = null;
         try{
@@ -113,156 +104,6 @@ public class Dao implements DAORemote{
             if (resultSet != null) {
                 resultSet.close();
             }
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getAllSuggestions() throws PSSDAOException{
-        try{
-            List rs = em.createNamedQuery("Suggestion.findAll")
-                .getResultList();
-            return (Collection<Suggestion>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-
-    @Override
-    public Collection<Suggestion> getSuggestionsByStatus(Status status) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("Suggestion.findByStatus").setParameter("status", status.name())
-                .getResultList();
-            return (Collection<Suggestion>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByDirectionStatus(Status status) throws PSSDAOException {
-        try{
-            getSuggestionsByDirectionStatusPS.setString(1, status.name());
-            return getSuggestionsFromPreparedStatement(getSuggestionsByDirectionStatusPS);
-        } catch (SQLException ex) {
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByInitiator(String login)throws PSSDAOException{
-        try{
-            List rs = em.createNamedQuery("Suggestion.findByInitiator").setParameter("initiator", login)
-                .getResultList();
-            return (Collection<Suggestion>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByDepartment(Department department) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("Suggestion.findByDepartment").setParameter("department", department)
-                .getResultList();
-            return (Collection<Suggestion>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByDateOfReceipt(java.util.Date dateOfReceipt) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("Suggestion.findByDateofreceipt").setParameter("dateOfReceipt", dateOfReceipt)
-                .getResultList();
-            return (Collection<Suggestion>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-
-    @Override
-    public Collection<Suggestion> getSuggestionsByStatusAndDepartment(Status status, Department department) throws PSSDAOException {
-        if (department==null || department.getId() == -1) {
-            return getSuggestionsByStatus(status);
-        }
-        if (status == null) {
-            return getSuggestionsByDepartment(department);
-        }
-        try{
-            getSuggestionsByStatusAndDirectionPS.setString(1, status.name());
-            getSuggestionsByStatusAndDirectionPS.setInt(2, department.getId());
-            return getSuggestionsFromPreparedStatement(getSuggestionsByStatusAndDirectionPS);
-        } catch (SQLException ex) {
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    public Collection<Suggestion> getSuggestionsByStatusDepartmentAndDateOfReceipt(Status status, Department department, java.util.Date dateOfReceipt) throws PSSDAOException{
-        if (dateOfReceipt==null) {
-            return getSuggestionsByStatusAndDepartment(status, department);
-        }
-        try{
-            StringBuilder request = new StringBuilder("select * from suggestion where Date_of_receipt=?");
-            if (status!=null) {
-                request.append(" AND status=?");
-            }
-            if (department!=null){
-                if (department.getId()==-1) {
-                    department = null;
-                }
-                else {
-                    request.append(" and id_suggestion in (select id_suggestion from directions where direction=?)");
-                }
-            }
-            PreparedStatement ps = connection.prepareCall(request.toString());
-            ps.setDate(1, new Date(dateOfReceipt.getTime()));
-            if (status!=null){
-                ps.setString(2, status.name());
-                if (department!=null) {
-                    ps.setInt(3, department.getId());
-                }
-            }
-            else if(department!=null) {
-                ps.setInt(2, department.getId());
-            }
-            ResultSet resultSet = null;
-            try{
-                resultSet = ps.executeQuery();
-                ArrayList<Suggestion> result = new ArrayList<Suggestion>();
-                while(resultSet.next()){
-                    result.add(getSuggestionFromResultSet(resultSet));
-                }
-                return result;
-            }finally{
-                if (resultSet != null) resultSet.close();
-            }
-        }catch (SQLException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByStatusDepartmentDirectionStatusAndDateOfReceipt(Status status, Department direction, Status directionStatus, java.util.Date dateOfReceipt) throws PSSDAOException {
-        if (directionStatus == null)
-            return getSuggestionsByStatusDepartmentAndDateOfReceipt(status, direction, dateOfReceipt);
-        Collection<Suggestion> result = getSuggestionsByStatusDepartmentAndDateOfReceipt(status, direction, dateOfReceipt);
-        result.retainAll(getSuggestionsByDirectionStatus(directionStatus));
-        return result;
-    }
-    
-    @Override
-    public Collection<Suggestion> getSuggestionsByDirectionStatusAndDepartment(Status status, Department direction) throws PSSDAOException {
-        if(status == null)
-            return getSuggestionsByDepartment(direction);
-        if (direction == null)
-            return getSuggestionsByDirectionStatus(status);
-        try{
-            getSuggestionsByDirectionStatusAndDepartmentPS.setString(1, status.name());
-            getSuggestionsByDirectionStatusAndDepartmentPS.setInt(2, direction.getId());
-            return getSuggestionsFromPreparedStatement(getSuggestionsByDirectionStatusAndDepartmentPS);
-        }catch (SQLException ex){
-            throw new PSSDAOException(ex);
         }
     }
     
@@ -421,17 +262,6 @@ public class Dao implements DAORemote{
             return result;
         }finally{
             if(resultSet != null) resultSet.close();
-        }
-    }
-
-    @Override
-    public Suggestion getSuggestionByID(int id) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("Suggestion.findById").setParameter("id", id)
-                .getResultList();
-        return (Suggestion) rs.get(0);
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
         }
     }
 

@@ -4,6 +4,8 @@
  */
 package dao;
 
+import entity.Department;
+import entity.Status;
 import entity.Suggestion;
 import java.util.List;
 import javax.ejb.Local;
@@ -28,5 +30,13 @@ public interface SuggestionFacadeLocal {
     List<Suggestion> findRange(int[] range);
 
     int count();
+
+    List<Suggestion> findByInitiator(String login);
+
+    List<Suggestion> findByStatus(Status status);
+
+    List<Suggestion> getForWritePeerReview(Department department);
+
+    List<Suggestion> getForWorkGroup(Suggestion suggestion);
     
 }
