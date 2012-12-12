@@ -18,6 +18,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.inject.Inject;
 import javax.inject.Named;
+import static utils.FacesUtils.getCurrentUserLogin;
 import static utils.FacesUtils.sendGrowlMessage;
 
 @Named
@@ -84,7 +85,6 @@ public class SuggestionController implements Serializable {
         title.append("инициатор=").append(suggestion.getInitiator().getLogin()).append("; ");
         title.append("status=").append(suggestion.getEnumStatus().getDescription()).append("; ");
         DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-        System.out.println("asdef" + title.toString());
         title.append(" дата создания=").append(df.format(suggestion.getDateOfReceipt()));
         return title.toString();
     }
@@ -130,7 +130,7 @@ public class SuggestionController implements Serializable {
 
     public String selectOwnSuggestions() {
         try {
-            Collection<Suggestion> finded = dao.getSuggestionsByInitiator(currentUser.getUser().getLogin());
+            Collection<Suggestion> finded = dao.getSuggestionsByInitiator(getCurrentUserLogin());
             List<SuggestionController> listControllers = new ArrayList();
             for (Suggestion sugg : finded) {
                 listControllers.add(new SuggestionController(sugg));

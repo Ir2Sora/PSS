@@ -50,6 +50,7 @@ public class CurrentUser implements CurrentUserLocal{
 
     @Override
     public String logOut() {
+        FacesUtils.invalidateSession();
         return "/user/index.xhtml?faces-redirect=true";        
     }
     

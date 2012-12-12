@@ -1,11 +1,11 @@
 package dao;
 
-import entity.Status;
-import entity.Role;
 import entity.Department;
-import entity.User;
 import entity.Direction;
+import entity.Role;
+import entity.Status;
 import entity.Suggestion;
+import entity.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
