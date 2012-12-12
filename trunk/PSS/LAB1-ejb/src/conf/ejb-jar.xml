@@ -9,7 +9,7 @@
    <interceptors>
       <interceptor>
           <interceptor-class>
-              dao.CurrentUserInterceptor
+              interceptor.CurrentUserInterceptor
           </interceptor-class>
           <around-invoke>
              <method-name>businessIntercept</method-name>

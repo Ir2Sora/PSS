@@ -1,5 +1,6 @@
 package converters;
 
+import entity.Department;
 import dao.*;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;

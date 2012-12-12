@@ -1,7 +1,7 @@
 package controllers;
 
-import dao.Direction;
-import dao.Suggestion;
+import entity.Direction;
+import entity.Suggestion;
 import javax.ejb.embeddable.EJBContainer;
 import javax.inject.Inject;
 import javax.naming.Context;

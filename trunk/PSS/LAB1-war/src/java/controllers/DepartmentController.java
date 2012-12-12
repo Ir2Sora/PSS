@@ -1,5 +1,6 @@
 package controllers;
 
+import entity.Department;
 import dao.*;
 import java.io.Serializable;
 import java.util.Collection;

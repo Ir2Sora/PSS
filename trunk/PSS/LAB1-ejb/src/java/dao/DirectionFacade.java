@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Direction;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class DirectionFacade extends AbstractFacade<Direction> implements DirectionFacadeLocal {
-    @PersistenceContext(unitName = "LAB1-ejbPU")
+    @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
 
     @Override

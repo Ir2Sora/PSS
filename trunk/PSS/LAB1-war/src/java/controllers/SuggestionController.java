@@ -1,5 +1,8 @@
 package controllers;
 
+import entity.Direction;
+import entity.User;
+import entity.Suggestion;
 import dao.*;
 import java.io.Serializable;
 import java.text.DateFormat;

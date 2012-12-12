@@ -1,5 +1,6 @@
 package dao;
 
+import entity.User;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal {
 
-    @PersistenceContext(unitName = "LAB1-ejbPU")
+    @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
 
     @Override

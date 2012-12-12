@@ -1,7 +1,7 @@
 package controllers;
 
 import dao.ApplicationInfo;
-import dao.User;
+import entity.User;
 import dao.UserFacadeLocal;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
@@ -14,7 +14,7 @@ import javax.interceptor.Interceptors;
 @Named
 @ConversationScoped
 @Stateful
-@Interceptors(dao.CurrentUserInterceptor.class)
+@Interceptors(interceptor.CurrentUserInterceptor.class)
 public class CurrentUser implements CurrentUserLocal{
     @Inject 
     private Conversation conversation;

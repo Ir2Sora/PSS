@@ -1,5 +1,9 @@
 package dao;
 
+import entity.Department;
+import entity.User;
+import entity.Direction;
+import entity.Suggestion;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;

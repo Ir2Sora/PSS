@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Direction;
 import java.util.List;
 import javax.ejb.Local;
 

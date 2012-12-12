@@ -1,5 +1,6 @@
 package controllers;
 
+import entity.Direction;
 import java.io.Serializable;
 import dao.*;
 import javax.ejb.EJB;

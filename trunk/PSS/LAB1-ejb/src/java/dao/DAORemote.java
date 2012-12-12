@@ -1,5 +1,8 @@
 package dao;
 
+import entity.Department;
+import entity.User;
+import entity.Suggestion;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;

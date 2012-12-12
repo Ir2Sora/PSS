@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Department;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class DepartmentFacade extends AbstractFacade<Department> implements DepartmentFacadeLocal {
-    @PersistenceContext(unitName = "LAB1-ejbPU")
+    @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
 
     @Override

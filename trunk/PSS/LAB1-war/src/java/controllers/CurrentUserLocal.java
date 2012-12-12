@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.User;
+import entity.User;
 import java.io.Serializable;
 import javax.ejb.Local;
 

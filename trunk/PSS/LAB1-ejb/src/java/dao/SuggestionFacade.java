@@ -4,6 +4,7 @@
  */
 package dao;
 
+import entity.Suggestion;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,7 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class SuggestionFacade extends AbstractFacade<Suggestion> implements SuggestionFacadeLocal {
-    @PersistenceContext(unitName = "LAB1-ejbPU")
+    @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
 
     @Override
