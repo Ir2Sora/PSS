@@ -22,9 +22,6 @@ public interface DAORemote extends Serializable{
     void saveDepartment(Department department) throws PSSDAOException;
     Collection<Department> getAllDepartments() throws PSSDAOException;
     Department getDepartmentByNumber(int number) throws PSSDAOException;
-    void addUser(User user) throws PSSDAOException;
-    void saveUser(User user) throws PSSDAOException;
-    User getUserByLogin(String login) throws PSSDAOException;
     void addRoleForUser(User user, Role role) throws PSSDAOException;
     void removeRoleFromUser(User user, Role role) throws PSSDAOException;
 }

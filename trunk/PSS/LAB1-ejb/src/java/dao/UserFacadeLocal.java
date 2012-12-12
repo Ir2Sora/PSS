@@ -27,5 +27,7 @@ public interface UserFacadeLocal {
     List<User> findRange(int[] range);
 
     int count();
+
+    User getUserByLogin(String login);
     
 }

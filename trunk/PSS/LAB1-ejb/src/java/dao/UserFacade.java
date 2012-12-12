@@ -1,9 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -14,6 +11,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal {
+
     @PersistenceContext(unitName = "LAB1-ejbPU")
     private EntityManager em;
 
@@ -25,5 +23,10 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     public UserFacade() {
         super(User.class);
     }
-    
+
+    @Override
+    public User getUserByLogin(String login) {
+        List<User> result = em.createNamedQuery("User.findByLogin").setParameter("login", login).getResultList();
+        return result.isEmpty() ? null : result.get(0);
+    }
 }

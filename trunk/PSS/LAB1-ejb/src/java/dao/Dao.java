@@ -341,26 +341,6 @@ public class Dao implements DAORemote{
             throw new PSSDAOException(ex);
         }
     }
-
-    @Override
-    public void saveUser(User user) throws PSSDAOException {
-        em.merge(user);
-    }
-    
-    public void addUser(User user) {
-        em.persist(user);
-    }
-
-    @Override
-    public User getUserByLogin(String login) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("User.findByLogin").setParameter("login", login)
-                .getResultList();
-        return (User) rs.get(0);
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
     
     private Collection<Role> getUserRoles(String login) throws SQLException{
         ResultSet resultSet = null;

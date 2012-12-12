@@ -3,7 +3,6 @@ package controllers;
 import dao.*;
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -39,8 +38,9 @@ public class DepartmentController implements Serializable{
                         new FacesMessage("Данный номер подразделения уже используется")); 
                 return null;
             }
-            else
+            else {
                 dao.saveDepartment(department);
+            }
             department.setDepartmentNumber(0);
             department.setShortName(null);
             department.setFullName(null);

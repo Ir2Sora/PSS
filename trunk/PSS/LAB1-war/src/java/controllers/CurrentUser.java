@@ -1,8 +1,8 @@
 package controllers;
 
-import dao.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dao.ApplicationInfo;
+import dao.User;
+import dao.UserFacadeLocal;
 import javax.ejb.Stateful;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -19,7 +19,7 @@ public class CurrentUser implements CurrentUserLocal{
     @Inject 
     private Conversation conversation;
     @Inject 
-    private DAORemote dao;
+    private UserFacadeLocal userFacade;
     @Inject
     ApplicationInfo applicationInfo;
     private User user;
@@ -28,26 +28,26 @@ public class CurrentUser implements CurrentUserLocal{
         user = new User();
     }
 
+    @Override
     public User getUser() {
         return user;
     }
-    
-    public String logIn(){
-        try {
-            user = dao.getUserByLogin(user.getLogin());
-        } catch (PSSDAOException ex) {
-            Logger.getLogger(CurrentUser.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+    @Override
+    public String logIn() {
+        user = userFacade.getUserByLogin(user.getLogin());
         conversation.begin();
-        return "/user/index.xhtml?faces-redirect=true";  
+        return "/user/index.xhtml?faces-redirect=true";
     }
-    
-    public String logOut(){
+
+    @Override
+    public String logOut() {
         conversation.end();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/user/index.xhtml?faces-redirect=true";        
     }
     
+    @Override
     public int getNumberOfUsers() {
         return applicationInfo.getNumberOfUsers();
     }
