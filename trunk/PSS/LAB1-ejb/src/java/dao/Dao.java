@@ -1,5 +1,7 @@
 package dao;
 
+import entity.Status;
+import entity.Role;
 import entity.Department;
 import entity.User;
 import entity.Direction;

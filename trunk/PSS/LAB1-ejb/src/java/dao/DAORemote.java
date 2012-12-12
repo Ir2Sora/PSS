@@ -1,6 +1,8 @@
 package dao;
 
 import entity.Department;
+import entity.Role;
+import entity.Status;
 import entity.Suggestion;
 import entity.User;
 import java.io.Serializable;

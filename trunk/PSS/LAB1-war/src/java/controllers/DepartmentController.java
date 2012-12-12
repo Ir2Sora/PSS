@@ -9,6 +9,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import static utils.FacesUtils.sendGrowlMessage;
 
 @Named
 @RequestScoped
@@ -45,8 +46,7 @@ public class DepartmentController implements Serializable {
         department.setDepartmentNumber(0);
         department.setShortName(null);
         department.setFullName(null);
-        context.addMessage(null,
-                new FacesMessage("Подразделение успешно добавлено"));
+        sendGrowlMessage("Подразделение успешно добавлено");
         return null;
 
     }
