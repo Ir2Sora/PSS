@@ -28,5 +28,7 @@ public interface DepartmentFacadeLocal {
     List<Department> findRange(int[] range);
 
     int count();
+
+    Department findByNumber(int depNumber);
     
 }

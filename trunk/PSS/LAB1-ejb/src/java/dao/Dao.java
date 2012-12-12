@@ -319,33 +319,6 @@ public class Dao implements DAORemote{
         }
     }
     
-    @Override
-    public void saveDepartment(Department department) throws PSSDAOException {
-        em.merge(department);
-    }
-    
-    @Override
-    public Collection<Department> getAllDepartments() throws PSSDAOException{
-        try{
-            List rs = em.createNamedQuery("Department.findAll")
-                .getResultList();
-            return (Collection<Department>) rs;
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-
-    @Override
-    public Department getDepartmentByNumber(int number) throws PSSDAOException {
-        try{
-            List rs = em.createNamedQuery("Department.findByDepartmentNumber").setParameter("departmentNumber", number)
-                .getResultList();
-            return (Department) rs.get(0);
-        } catch (PersistenceException ex){
-            throw new PSSDAOException(ex);
-        }
-    }
-    
     private Collection<Role> getUserRoles(String login) throws SQLException{
         ResultSet resultSet = null;
         try{

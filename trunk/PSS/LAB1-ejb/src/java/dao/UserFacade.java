@@ -26,7 +26,7 @@ public class UserFacade extends AbstractFacade<User> implements UserFacadeLocal 
     }
 
     @Override
-    public User getUserByLogin(String login) {
+    public User findByLogin(String login) {
         List<User> result = em.createNamedQuery("User.findByLogin").setParameter("login", login).getResultList();
         return result.isEmpty() ? null : result.get(0);
     }

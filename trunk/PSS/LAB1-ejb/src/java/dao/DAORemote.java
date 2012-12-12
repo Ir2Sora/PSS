@@ -1,8 +1,8 @@
 package dao;
 
 import entity.Department;
-import entity.User;
 import entity.Suggestion;
+import entity.User;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
@@ -22,9 +22,6 @@ public interface DAORemote extends Serializable{
     Collection<Suggestion> getSuggestionsByDirectionStatusAndDepartment(Status status, Department direction) throws PSSDAOException;
     Collection<Suggestion> getSuggestionsByStatusDepartmentDirectionStatusAndDateOfReceipt(Status status, Department direction, Status directionStatus, Date dateOfReceipt) throws PSSDAOException;
     Suggestion getSuggestionByID(int id) throws PSSDAOException;
-    void saveDepartment(Department department) throws PSSDAOException;
-    Collection<Department> getAllDepartments() throws PSSDAOException;
-    Department getDepartmentByNumber(int number) throws PSSDAOException;
     void addRoleForUser(User user, Role role) throws PSSDAOException;
     void removeRoleFromUser(User user, Role role) throws PSSDAOException;
 }

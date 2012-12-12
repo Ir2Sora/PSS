@@ -29,6 +29,6 @@ public interface UserFacadeLocal {
 
     int count();
 
-    User getUserByLogin(String login);
+    User findByLogin(String login);
     
 }

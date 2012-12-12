@@ -35,7 +35,7 @@ public class UserController implements Serializable {
     }
 
     public String register() {
-        if (userFacade.getUserByLogin(user.getLogin()) != null) {
+        if (userFacade.findByLogin(user.getLogin()) != null) {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage("Данный логин уже используется"));
             return null;
@@ -47,7 +47,7 @@ public class UserController implements Serializable {
     }
 
     public String selectUserByLogin() {
-        User finded = userFacade.getUserByLogin(user.getLogin());
+        User finded = userFacade.findByLogin(user.getLogin());
         if (finded == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Пользователь с таким логином не найден"));
             return null;

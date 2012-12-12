@@ -35,7 +35,7 @@ public class CurrentUser implements CurrentUserLocal{
 
     @Override
     public String logIn() {
-        user = userFacade.getUserByLogin(user.getLogin());
+        user = userFacade.findByLogin(user.getLogin());
         conversation.begin();
         return "/user/index.xhtml?faces-redirect=true";
     }
