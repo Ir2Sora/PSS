@@ -1,23 +1,22 @@
 package controllers;
 
 import dao.ApplicationInfo;
-import entity.User;
 import dao.UserFacadeLocal;
+import entity.User;
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
-import javax.enterprise.context.Conversation;
-import javax.enterprise.context.ConversationScoped;
-import javax.faces.context.FacesContext;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.interceptor.Interceptors;
+import utils.FacesUtils;
 
 @Named
-@ConversationScoped
+@SessionScoped
 @Stateful
 @Interceptors(interceptor.CurrentUserInterceptor.class)
 public class CurrentUser implements CurrentUserLocal{
-    @Inject 
-    private Conversation conversation;
+
     @Inject 
     private UserFacadeLocal userFacade;
     @Inject
@@ -27,23 +26,30 @@ public class CurrentUser implements CurrentUserLocal{
     public CurrentUser(){
         user = new User();
     }
+    
+    @PostConstruct
+    void init(){
+        String login = FacesUtils.getCurrentUserLogin();
+        if (login != null){
+            user = userFacade.findByLogin(login);
+        }
+    }
 
     @Override
     public User getUser() {
+        if (user == null){
+            init();
+        }
         return user;
     }
 
     @Override
     public String logIn() {
-        user = userFacade.findByLogin(user.getLogin());
-        conversation.begin();
         return "/user/index.xhtml?faces-redirect=true";
     }
 
     @Override
     public String logOut() {
-        conversation.end();
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/user/index.xhtml?faces-redirect=true";        
     }
     

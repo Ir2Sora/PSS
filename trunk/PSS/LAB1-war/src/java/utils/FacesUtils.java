@@ -10,4 +10,8 @@ public class FacesUtils {
     public static void sendGrowlMessage(String message) {
         context.addMessage(null, new FacesMessage(message));
     }
+    
+    public static String getCurrentUserLogin() {
+        return context.getExternalContext().getRemoteUser();
+    }
 }

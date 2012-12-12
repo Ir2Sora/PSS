@@ -44,7 +44,7 @@ public class Dao implements DAORemote{
        
     @Resource(name="jdbc/PSSDB")
     private DataSource ds;
-    @PersistenceContext(unitName = "LAB1-ejbPU")
+    @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
     
     public Dao() {
