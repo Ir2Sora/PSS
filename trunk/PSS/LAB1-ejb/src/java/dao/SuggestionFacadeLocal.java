@@ -7,6 +7,7 @@ package dao;
 import entity.Department;
 import entity.Status;
 import entity.Suggestion;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
