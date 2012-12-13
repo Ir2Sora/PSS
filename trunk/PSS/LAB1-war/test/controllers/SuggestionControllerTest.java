@@ -2,10 +2,7 @@ package controllers;
 
 import entity.Direction;
 import entity.Suggestion;
-import javax.ejb.embeddable.EJBContainer;
 import javax.inject.Inject;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import junit.framework.TestCase;
 import org.junit.After;
@@ -111,20 +108,6 @@ public class SuggestionControllerTest extends TestCase {
         System.out.println("addDirection");
         SuggestionController instance = new SuggestionController();
         instance.addDirection();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTitle method, of class SuggestionController.
-     */
-    @Test
-    public void testGetTitle() {
-        System.out.println("getTitle");
-        SuggestionController instance = new SuggestionController();
-        String expResult = "";
-        String result = instance.getTitle();
-        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

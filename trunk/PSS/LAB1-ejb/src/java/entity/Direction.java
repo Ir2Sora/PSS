@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,13 +34,14 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Direction.findByDirection", query = "SELECT d FROM Direction d WHERE d.directionPK.direction = :direction")})
 public class Direction implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static int tempIDGenerator = 1;
     @EmbeddedId
     protected DirectionPK directionPK;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 20)
     @Column(name = "status")
-    private String status;
+    private String status = Status.RequestedPeerRewiew.name();
     @Lob
     @Size(max = 65535)
     @Column(name = "conclusion")
@@ -50,8 +52,10 @@ public class Direction implements Serializable {
     @JoinColumn(name = "direction", referencedColumnName = "id_department", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Department department;
-
-//    private ServiceStatus serviceStatus;
+    @Transient
+    private int tempID = tempIDGenerator++; 
+    @Transient
+    private ServiceStatus serviceStatus;
 
     public Direction() {
     }
@@ -77,15 +81,19 @@ public class Direction implements Serializable {
         this.directionPK = directionPK;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
+        return status;
+    }
+
+    public Status getEnumStatus() {
         return Status.valueOf(status);
     }
 
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    public void setStatus(Status status) {
+
+    public void setEnumStatus(Status status) {
         this.status = status.name();
     }
 
@@ -110,6 +118,7 @@ public class Direction implements Serializable {
     }
 
     public void setDepartment(Department department) {
+        directionPK.setDirection(department.getId());
         this.department = department;
     }
 
@@ -119,6 +128,14 @@ public class Direction implements Serializable {
 
     public void setServiceStatus(ServiceStatus serviceStatus) {
 
+    }
+    
+    public boolean isRemove(){
+        return serviceStatus != null && serviceStatus == ServiceStatus.REMOVED;
+    }
+    
+    public boolean isNew(){
+        return serviceStatus != null && serviceStatus == ServiceStatus.NEW;
     }
 
     @Override
@@ -136,7 +153,7 @@ public class Direction implements Serializable {
         }
         Direction other = (Direction) object;
         if ((this.directionPK == null && other.directionPK != null) || (this.directionPK != null && !this.directionPK.equals(other.directionPK))) {
-            return false;
+            return this.serviceStatus != null && this.serviceStatus.equals(other.serviceStatus) && this.tempID == other.tempID;
         }
         return true;
     }

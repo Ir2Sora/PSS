@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -193,6 +194,20 @@ public class Suggestion implements Serializable {
 
     public void setDirections(Collection<Direction> directionCollection) {
         this.directions = directionCollection;
+    }
+    
+    public void addDirection(){
+        Direction newDirection = new Direction(id, 0);
+        newDirection.setServiceStatus(ServiceStatus.NEW);
+        directions.add(newDirection);
+    }
+    
+    public void removeDirection(Direction direction){
+        if (direction.getServiceStatus() == ServiceStatus.NEW){
+            directions.remove(direction);
+        } else {
+            direction.setServiceStatus(ServiceStatus.REMOVED);
+        }
     }
 
     public User getInitiator() {

@@ -1,11 +1,15 @@
 package dao;
 
 import entity.Department;
+import entity.Direction;
+import entity.ServiceStatus;
 import entity.Status;
 import entity.Suggestion;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,6 +23,9 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
 
     @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
+    
+    @Inject
+    private DirectionFacadeLocal directionFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -27,6 +34,21 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
 
     public SuggestionFacade() {
         super(Suggestion.class);
+    }
+    
+    @Override
+    public void edit(Suggestion suggestion){
+        Iterator<Direction> iter = suggestion.getDirections().iterator();
+        while (iter.hasNext()){
+            Direction direction = iter.next();
+            if (direction.isRemove()){
+                directionFacade.remove(direction);
+                iter.remove();
+            } else if (direction.isNew()){
+                directionFacade.create(direction);
+            }
+        }
+        super.edit(suggestion);
     }
 
     @Override

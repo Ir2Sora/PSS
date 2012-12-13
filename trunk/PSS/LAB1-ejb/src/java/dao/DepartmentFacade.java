@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entity.Department;
@@ -16,6 +12,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class DepartmentFacade extends AbstractFacade<Department> implements DepartmentFacadeLocal {
+
     @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
 
@@ -32,5 +29,5 @@ public class DepartmentFacade extends AbstractFacade<Department> implements Depa
     public Department findByNumber(int depNumber) {
         List<Department> result = em.createNamedQuery("Department.findByDepartmentNumber").setParameter("departmentNumber", depNumber).getResultList();
         return result.isEmpty() ? null : result.get(0);
-    }    
+    }
 }

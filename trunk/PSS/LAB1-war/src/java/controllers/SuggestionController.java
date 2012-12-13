@@ -6,8 +6,6 @@ import entity.Status;
 import entity.Suggestion;
 import entity.User;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.enterprise.context.RequestScoped;
@@ -80,7 +78,7 @@ public class SuggestionController implements Serializable {
     }
 
     public String writePeerReview(Suggestion sugg) {
-        getDirectionByDepartmentOfCurrentUser().setStatus(Status.ReceivedPeerRewiew);
+        getDirectionByDepartmentOfCurrentUser().setEnumStatus(Status.ReceivedPeerRewiew);
         save(sugg);
         return null;
     }

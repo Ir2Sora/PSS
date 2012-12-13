@@ -21,7 +21,7 @@
                 </c:if>
                 <pou:accordionPanel value="#{viewScope.finded}" var="sugg">
                    
-                    <pou:tab title="#{sugg.title}">  
+                    <pou:tab title="#{sugg.view}">  
                             <h:form id="form">
                                 <pou:growl id="growl" autoUpdate="true"/>
                                 <h:panelGrid columns="2" id="grid">
@@ -51,7 +51,7 @@
                                     </h:outputText>
                                 </h:panelGrid>
                                 <hr/><p/>
-                                <pou:commandButton value="#{buttonNames.submit}" action="#{suggestionBean.writePeerReview(sugg)}" ajax="false"/>
+                                <pou:commandButton value="#{buttonNames.submit}" action="#{suggestionController.writePeerReview(sugg)}" ajax="false"/>
                             </h:form>
                         </pou:tab>
                 </pou:accordionPanel>              

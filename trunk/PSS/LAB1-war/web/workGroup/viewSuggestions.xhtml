@@ -69,14 +69,14 @@
                                     </f:facet>
                                     
                                     <pou:column headerText="#{fieldNames.directionStatus}">                                        
-                                        <pou:selectOneMenu id="serviceStatus" value="#{direction.status}" disabled="#{direction.isRemove()}">
+                                        <pou:selectOneMenu id="serviceStatus" value="#{direction.enumStatus}" disabled="#{direction.isRemove()}">
                                             <f:selectItems value="#{sugg.enumStatus.statusesForDirection}"
                                                            var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                                         </pou:selectOneMenu>  
                                     </pou:column>
                                     
                                     <pou:column headerText="#{fieldNames.department}">
-                                        <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemove()}">
+                                        <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemove()}" converter="${departmentConverter}">
                                             <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                                         </pou:selectOneMenu>  
@@ -91,7 +91,7 @@
                                     </pou:column>
                                     
                                 </pou:dataTable>
-                                <pou:commandButton value="#{buttonNames.addNewDirection}" action="#{suggestionController.suggestion.addDirection()}" update="directionsTable"/>
+                                <pou:commandButton value="#{buttonNames.addNewDirection}" action="#{sugg.addDirection()}" update="directionsTable"/>
                                 </h:form>
                         </pou:tab>  
                          
