@@ -1,6 +1,8 @@
 package entity;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -207,6 +209,16 @@ public class Suggestion implements Serializable {
     
     public boolean isRecommended(){
         return getEnumStatus() == Status.Recommended;
+    }
+    
+    public String getView(){
+        StringBuilder title = new StringBuilder();
+        title.append("id=").append(id).append("; ");
+        title.append("инициатор=").append(initiator.getLogin()).append("; ");
+        title.append("status=").append(getEnumStatus().getDescription()).append("; ");
+        DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
+        title.append(" дата создания=").append(df.format(dateOfReceipt));
+        return title.toString();
     }
 
     @Override

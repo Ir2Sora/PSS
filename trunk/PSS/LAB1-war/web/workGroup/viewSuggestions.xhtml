@@ -25,44 +25,44 @@
                 <pou:dialog id="modalDialog" widgetVar="dlg" modal="true" height="100">  
                     <h:outputText value="Идет сохранение данных"/>  
                 </pou:dialog>  
-                <pou:accordionPanel value="#{viewScope.finded}" var="suggContr">
+                <pou:accordionPanel value="#{viewScope.finded}" var="sugg">
                    
-                        <pou:tab title="#{suggContr.title}">
+                        <pou:tab title="#{sugg.view}">
                             <h:form id="form">
                                 <h:panelGrid columns="2" id="grid">
                                     <h:outputText value="#{fieldNames.idSuggestion}"/>
-                                    <h:outputText value="#{suggContr.suggestion.id}"/>
+                                    <h:outputText value="#{sugg.id}"/>
                                     <h:outputText value="#{fieldNames.login}"/>
-                                    <h:outputText value="#{suggContr.suggestion.initiator.login}"/>
+                                    <h:outputText value="#{sugg.initiator.login}"/>
                                     <h:outputText value="#{fieldNames.fullName}"/>
-                                    <h:outputText value="#{suggContr.suggestion.initiator.surname} 
-                                      #{suggContr.suggestion.initiator.firstName} 
-                                      #{suggContr.suggestion.initiator.patronymic}"/>
+                                    <h:outputText value="#{sugg.initiator.surname} 
+                                      #{sugg.initiator.firstName} 
+                                      #{sugg.initiator.patronymic}"/>
                                     <h:outputLabel value="#{fieldNames.status}"/>
-                                    <pou:selectOneMenu value="#{suggContr.suggestion.status}">
-                                        <f:selectItems value="#{suggContr.suggestion.enumStatus.statusesForSuggestion}"
+                                    <pou:selectOneMenu value="#{sugg.status}">
+                                        <f:selectItems value="#{sugg.enumStatus.statusesForSuggestion}"
                                                        var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                                     </pou:selectOneMenu>
                                     <h:outputLabel value="#{fieldNames.problem}"/>
-                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.problem}" />
+                                    <pou:inputTextarea rows="6" cols="80" value="#{sugg.problem}" />
                                     <h:outputLabel value="#{fieldNames.solution}"/>
-                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.solution}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{sugg.solution}"/>
                                     <h:outputLabel value="#{fieldNames.result}"/>
-                                    <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.result}"/>
+                                    <pou:inputTextarea rows="6" cols="80" value="#{sugg.result}"/>
                                     <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
-                                    <h:outputText value="#{suggContr.suggestion.dateOfReceipt}">
+                                    <h:outputText value="#{sugg.dateOfReceipt}">
                                         <f:convertDateTime pattern="dd.MM.yyyy"/>
                                     </h:outputText>
                                     <h:outputLabel value="#{fieldNames.dateOfConsideration}"/>
-                                    <pou:calendar value="#{suggContr.suggestion.dateOfConsideration}" id="date"  pattern="dd.MM.yyyy"/>
+                                    <pou:calendar value="#{sugg.dateOfConsideration}" id="date"  pattern="dd.MM.yyyy"/>
                                 </h:panelGrid>
                                 
                                 <hr/><p/>
-                                <pou:commandButton value="#{buttonNames.save}" action="#{suggestionController.save(suggContr.suggestion)}" 
+                                <pou:commandButton value="#{buttonNames.save}" action="#{suggestionController.save(sugg)}" 
                                                    update="grid" onstart="dlg.show()" oncomplete="dlg.hide()"/>
                                 <hr/><p/>
                                 
-                                <pou:dataTable id="directionsTable" value="#{suggContr.suggestion.directions}" var="direction">
+                                <pou:dataTable id="directionsTable" value="#{sugg.directions}" var="direction">
                                     
                                     <f:facet name="heading">
                                             Направления
@@ -70,14 +70,14 @@
                                     
                                     <pou:column headerText="#{fieldNames.directionStatus}">                                        
                                         <pou:selectOneMenu id="serviceStatus" value="#{direction.status}" disabled="#{direction.isRemove()}">
-                                            <f:selectItems value="#{suggContr.suggestion.enumStatus.statusesForDirection}"
+                                            <f:selectItems value="#{sugg.enumStatus.statusesForDirection}"
                                                            var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                                         </pou:selectOneMenu>  
                                     </pou:column>
                                     
                                     <pou:column headerText="#{fieldNames.department}">
                                         <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemove()}">
-                                            <f:selectItems value="#{PSSDAO.allDepartments}" var="department"
+                                            <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                                         </pou:selectOneMenu>  
                                     </pou:column>
@@ -91,7 +91,7 @@
                                     </pou:column>
                                     
                                 </pou:dataTable>
-                                <pou:commandButton value="#{buttonNames.addNewDirection}" action="#{suggContr.suggestion.addDirection()}" update="directionsTable"/>
+                                <pou:commandButton value="#{buttonNames.addNewDirection}" action="#{suggestionController.suggestion.addDirection()}" update="directionsTable"/>
                                 </h:form>
                         </pou:tab>  
                          

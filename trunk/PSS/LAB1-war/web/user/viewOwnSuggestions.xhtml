@@ -20,40 +20,40 @@
                     <c:set var="finded" value="#{flash.finded}" scope="view"/>
                 </c:if>
                 <pou:growl id="growl" autoUpdate="true"/>
-                <pou:accordionPanel value="#{viewScope.finded}" var="suggContr">
+                <pou:accordionPanel value="#{viewScope.finded}" var="sugg">
                    
-                    <pou:tab title="#{suggContr.title}">  
+                    <pou:tab title="#{sugg.view}">  
                         <h:form id="form">
                             <h:panelGrid columns="2" id="grid">
                                 <h:outputText value="#{fieldNames.idSuggestion}"/>
-                                <h:outputText value="#{suggContr.suggestion.id}"/>
+                                <h:outputText value="#{sugg.id}"/>
                                 <h:outputText value="#{fieldNames.status}"/>
-                                <h:outputText value="#{suggContr.suggestion.enumStatus.description}"/>
+                                <h:outputText value="#{sugg.enumStatus.description}"/>
                                 <h:outputLabel value="#{fieldNames.problem}"/>
-                                <h:outputText value="#{suggContr.suggestion.problem}" rendered="#{not suggContr.suggestion.isNeedImprovement()}"/>
-                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.problem}" rendered="#{suggContr.suggestion.isNeedImprovement()}" disabled="#{not sugg.isNeedImprovement()}"/>
+                                <h:outputText value="#{sugg.problem}" rendered="#{not sugg.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{sugg.problem}" rendered="#{sugg.isNeedImprovement()}"/>
                                 <h:outputLabel value="#{fieldNames.solution}"/>
-                                <h:outputText value="#{suggContr.suggestion.solution}" rendered="#{not sugg.isNeedImprovement()}"/>
-                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.solution}" rendered="#{suggContr.suggestion.isNeedImprovement()}"/>
+                                <h:outputText value="#{sugg.solution}" rendered="#{not sugg.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{sugg.solution}" rendered="#{sugg.isNeedImprovement()}"/>
                                 <h:outputLabel value="#{fieldNames.result}"/>
-                                <h:outputText value="#{suggContr.suggestion.result}" rendered="#{not suggContr.suggestion.isNeedImprovement()}"/>
-                                <pou:inputTextarea rows="6" cols="80" value="#{suggContr.suggestion.result}" rendered="#{suggContr.suggestion.isNeedImprovement()}"/>
+                                <h:outputText value="#{sugg.result}" rendered="#{not sugg.isNeedImprovement()}"/>
+                                <pou:inputTextarea rows="6" cols="80" value="#{sugg.result}" rendered="#{sugg.isNeedImprovement()}"/>
                                 <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
-                                <h:outputText value="#{suggContr.suggestion.dateOfReceipt}">
+                                <h:outputText value="#{sugg.dateOfReceipt}">
                                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
                                 <h:outputLabel value="#{fieldNames.dateOfConsideration}"/>
-                                <h:outputText value="#{suggContr.suggestion.dateOfConsideration}">
+                                <h:outputText value="#{sugg.dateOfConsideration}">
                                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
                                 <h:outputLabel value="#{fieldNames.id_4i}"/>
                             </h:panelGrid>
                             <hr/><p/>
-                            <pou:commandButton value="#{buttonNames.submit}" action="#{suggContr.improve(suggContr.suggestion)}" 
+                            <pou:commandButton value="#{buttonNames.submit}" action="#{suggestionController.improve(sugg)}" 
                                                update="form" process="@form" 
-                                               rendered="#{suggContr.suggestion.isNeedImprovement() or suggContr.suggestion.isRecommended()}"/>
+                                               rendered="#{sugg.isNeedImprovement() or sugg.isRecommended()}"/>
                             <hr/><p/>
-                            <pou:dataTable id="directionsTable" value="#{suggContr.suggestion.directions}" var="direction">
+                            <pou:dataTable id="directionsTable" value="#{sugg.directions}" var="direction">
                                 
                                 <f:facet name="heading">
                                     Направления
