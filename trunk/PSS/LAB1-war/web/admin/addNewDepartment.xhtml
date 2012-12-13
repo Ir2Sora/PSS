@@ -22,16 +22,16 @@
                             Все поля обязательны для заполнения
                         </f:facet>
                         <h:outputLabel value="#{fieldNames.departmentNumber}" for="departmentNumber"/>
-                        <pou:inputText value="#{departmentBean.departmentNumber}" id="departmentNumber"
+                        <pou:inputText value="#{departmentController.department.departmentNumber}" id="departmentNumber"
                                        required="true" requiredMessage="Укажите номер подразделения"/>
                         <h:outputLabel value="#{fieldNames.departmentShortName}" for="short_name"/>
-                        <pou:inputText value="#{departmentBean.shortName}" id="short_name"
+                        <pou:inputText value="#{departmentController.department.shortName}" id="short_name"
                                        required="true" requiredMessage="Укажите сокращенное название подразделения"/>
                         <h:outputLabel value="#{fieldNames.departmentFullName}" for="full_name"/>
-                        <pou:inputText value="#{departmentBean.fullName}" id="full_name"
+                        <pou:inputText value="#{departmentController.department.fullName}" id="full_name"
                                        required="true" requiredMessage="Укажите полное название подразделения"/>
                         <f:facet name="footer">
-                            <pou:commandButton value="#{buttonNames.add}" action="#{departmentBean.save()}" update="growl,panel"/>
+                            <pou:commandButton value="#{buttonNames.add}" action="#{departmentController.save()}" update="growl,panel"/>
                         </f:facet>
                     </pou:panelGrid>
                 </h:form>

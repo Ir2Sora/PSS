@@ -80,7 +80,7 @@ public class User implements Serializable {
     @JoinColumn(name = "id_department", referencedColumnName = "id_department")
     @ManyToOne
     private Department department;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")   
     private Collection<Usergroup> usergroups;
 
     public User() {
@@ -211,6 +211,23 @@ public class User implements Serializable {
         Collection<Usergroup> usergroups = new ArrayList<Usergroup>();
         for (Role role:roles){
             Usergroup usergroup = new Usergroup(login, role.name());
+            usergroups.add(usergroup);
+        }
+        this.usergroups = usergroups;
+    }   
+    
+    public Collection<String> getRolesView() {
+        Collection<String> roles = new ArrayList<String>();
+        for (Usergroup usergroup:usergroups){
+            roles.add(usergroup.usergroupPK.getRole());
+        }
+        return roles;
+    }
+
+    public void setRolesView(Collection<String> roles) {
+        Collection<Usergroup> usergroups = new ArrayList<Usergroup>();
+        for (String role:roles){
+            Usergroup usergroup = new Usergroup(login, role);
             usergroups.add(usergroup);
         }
         this.usergroups = usergroups;

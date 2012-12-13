@@ -20,6 +20,7 @@ public class DepartmentController implements Serializable {
     private Department department;
 
     public DepartmentController() {
+        department = new Department();
     }
 
     public DepartmentController(Department department) {

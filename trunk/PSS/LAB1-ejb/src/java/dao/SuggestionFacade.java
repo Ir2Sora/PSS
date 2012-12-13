@@ -3,21 +3,12 @@ package dao;
 import entity.Department;
 import entity.Status;
 import entity.Suggestion;
-import entity.User;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 /**
  *

@@ -31,8 +31,8 @@
                         <h:outputText value="#{fieldNames.patronymic}"/>
                         <pou:inputText value="#{viewScope.finded.patronymic}"/>
                         <h:outputLabel value="#{fieldNames.department}"/>
-                        <pou:selectOneMenu value="#{viewScope.finded.department}">
-                            <f:selectItems value="#{PSSDAO.allDepartments}" var="department"
+                        <pou:selectOneMenu value="#{viewScope.finded.department}" converter="${departmentConverter}">
+                            <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                         </pou:selectOneMenu>  
                         <h:outputText value="#{fieldNames.email}"/>
@@ -40,12 +40,12 @@
                         <h:outputText value="#{fieldNames.roles}"/>  
                         <pou:selectManyCheckbox value="#{viewScope.finded.roles}">  
                             <f:converter converterId="roleConverter"/>
-                            <f:selectItems value="#{viewScope.finded.allRoles}" var="role"
+                            <f:selectItems value="#{userController.allRoles}" var="role"
                                            itemLabel="#{role.name()}" itemValue="#{role}"/>  
                         </pou:selectManyCheckbox>  
                     </h:panelGrid>
                     <hr/><p/>
-                    <pou:commandButton value="#{buttonNames.save}" action="#{userBean.save(viewScope.finded)}" update="grid"/>
+                    <pou:commandButton value="#{buttonNames.save}" action="#{userController.save(viewScope.finded)}" update="grid"/>
                     <hr/><p/>
                 </h:form>
             </ui:define>

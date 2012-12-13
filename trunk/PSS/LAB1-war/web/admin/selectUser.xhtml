@@ -18,10 +18,10 @@
                     <pou:growl id="growl"/> 
                     <h:panelGrid columns="2">
                         <h:outputLabel value="#{fieldNames.login}" for="login"/>
-                        <pou:inputText id="login" value="#{userBean.login}"
+                        <pou:inputText id="login" value="#{userController.user.login}"
                                        required="true" requiredMessage="Укажите логин пользователя"/>
                     </h:panelGrid>
-                    <pou:commandButton value="#{buttonNames.find}" action="#{userBean.selectUserByLogin()}" update="growl"/>
+                    <pou:commandButton value="#{buttonNames.find}" action="#{userController.selectUserByLogin()}" update="growl"/>
                 </h:form>
             </ui:define>
 
