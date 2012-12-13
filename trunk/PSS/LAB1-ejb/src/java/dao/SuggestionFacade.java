@@ -76,11 +76,10 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
         if (!conditions.isEmpty()) {
             query.append("WHERE ");
             for (int i = 0; i < conditions.size(); i++) {
-                if (i % 2 == 0) {
-                    query.append(conditions.get(i));
-                } else {
-                    query.append(" AND ").append(conditions.get(i)).append(" ");
+                if (i > 0) {
+                    query.append(" AND ");
                 }
+                query.append(conditions.get(i)).append(" ");
             }
         }
 
@@ -96,6 +95,5 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
         }
 
         return q.getResultList();
-    }  
-    
+    }
 }

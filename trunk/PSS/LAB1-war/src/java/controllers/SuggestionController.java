@@ -1,6 +1,6 @@
 package controllers;
 
-import dao.*;
+import dao.SuggestionFacadeLocal;
 import entity.Direction;
 import entity.Status;
 import entity.Suggestion;

@@ -26,14 +26,14 @@
                                            var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                         </h:selectOneMenu>
                         <h:outputLabel value="#{fieldNames.department}"/>
-                        <h:selectOneMenu value="#{suggestionController.suggestion.initiator.department}" >
+                        <h:selectOneMenu value="#{suggestionController.suggestion.initiator.department}" converter="${departmentConverter}">
                             <f:selectItem noSelectionOption="true" itemValue="#{null}" itemLabel=""/>
                             <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                         </h:selectOneMenu>
                         
                         <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
-                        <pou:calendar value="#{suggestionController.suggestion.dateOfReceipt}" id="date"  pattern="dd.MM.yyyy"/>  
+                        <pou:calendar value="#{suggestionController.suggestion.dateOfReceipt}" id="date"  pattern="dd.MM.yyyy" required="false"/>  
                         <h:message for="date"/>
                     </h:panelGrid>
                     <h:commandButton value="#{buttonNames.find}" action="#{suggestionController.select()}"/>

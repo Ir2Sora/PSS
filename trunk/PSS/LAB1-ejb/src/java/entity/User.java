@@ -3,7 +3,6 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -170,8 +169,8 @@ public class User implements Serializable {
         return department;
     }
 
-    public void setDepartment(Department idDepartment) {
-        this.department = idDepartment;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override

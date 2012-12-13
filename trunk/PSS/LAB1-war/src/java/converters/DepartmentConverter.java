@@ -11,8 +11,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named
-@ApplicationScoped
-@FacesConverter(forClass = Department.class)
 public class DepartmentConverter implements Converter, Serializable {
 
     @Inject
@@ -34,7 +32,7 @@ public class DepartmentConverter implements Converter, Serializable {
             Department department = (Department) value;
             return String.valueOf(department.getDepartmentNumber());
         } else {
-            throw new ConverterException();
+            return null;
         }
     }
 }
