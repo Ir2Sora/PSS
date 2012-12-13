@@ -6,7 +6,7 @@
     <class>entity.Direction</class>
     <class>entity.Suggestion</class>
     <class>entity.User</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

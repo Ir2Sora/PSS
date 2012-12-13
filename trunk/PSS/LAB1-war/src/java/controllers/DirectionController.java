@@ -2,15 +2,13 @@ package controllers;
 
 import entity.Direction;
 import java.io.Serializable;
-import dao.*;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 @ManagedBean
 @RequestScoped
 public class DirectionController implements Serializable{
-//    @EJB private DAORemote dao;
+
     private Direction direction;
     
     public DirectionController(){

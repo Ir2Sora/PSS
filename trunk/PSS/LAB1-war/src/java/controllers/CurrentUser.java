@@ -3,6 +3,7 @@ package controllers;
 import dao.ApplicationInfo;
 import dao.UserFacadeLocal;
 import entity.User;
+import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;

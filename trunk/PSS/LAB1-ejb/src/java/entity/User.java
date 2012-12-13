@@ -1,7 +1,9 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -75,10 +77,12 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "initiator")
-    private Collection<Suggestion> suggestionCollection;
+    private Collection<Suggestion> suggestions;
     @JoinColumn(name = "id_department", referencedColumnName = "id_department")
     @ManyToOne
     private Department department;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private Collection<Usergroup> usergroups;
 
     public User() {
     }
@@ -154,12 +158,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Suggestion> getSuggestionCollection() {
-        return suggestionCollection;
+    public Collection<Suggestion> getSuggestions() {
+        return suggestions;
     }
 
-    public void setSuggestionCollection(Collection<Suggestion> suggestionCollection) {
-        this.suggestionCollection = suggestionCollection;
+    public void setSuggestions(Collection<Suggestion> suggestionCollection) {
+        this.suggestions = suggestionCollection;
     }
 
     public Department getDepartment() {
@@ -195,4 +199,21 @@ public class User implements Serializable {
         return "dao.User[ idUser=" + id + " ]";
     }
     
+    public Collection<Role> getRoles() {
+        Collection<Role> roles = new ArrayList<Role>();
+        for (Usergroup usergroup:usergroups){
+            Role role = Role.valueOf(usergroup.usergroupPK.getRole());
+            roles.add(role);
+        }
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        Collection<Usergroup> usergroups = new ArrayList<Usergroup>();
+        for (Role role:roles){
+            Usergroup usergroup = new Usergroup(login, role.name());
+            usergroups.add(usergroup);
+        }
+        this.usergroups = usergroups;
+    }   
 }
