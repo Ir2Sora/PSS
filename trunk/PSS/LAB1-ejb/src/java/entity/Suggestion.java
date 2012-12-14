@@ -5,7 +5,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Suggestion.findByDepartment", query = "SELECT s FROM Suggestion s WHERE s.initiator.department = :department"),
     @NamedQuery(name = "Suggestion.findByStatus", query = "SELECT s FROM Suggestion s WHERE s.status = :status"),
     @NamedQuery(name = "Suggestion.findByDateofreceipt", query = "SELECT s FROM Suggestion s WHERE s.dateOfReceipt = :dateOfReceipt"),
-    @NamedQuery(name = "Suggestion.findByDateofconsideration", query = "SELECT s FROM Suggestion s WHERE s.dateOfConsideration = :dateOfConsideration")})
+    @NamedQuery(name = "Suggestion.findByDateofconsideration", query = "SELECT s FROM Suggestion s WHERE s.dateOfConsideration = :dateOfConsideration"),
+    @NamedQuery(name = "Suggestion.selectForWritePeerReview", query = "SELECT  s FROM Suggestion s JOIN s.directions d WHERE d.status = \"RequestedPeerRewiew\" AND d.department = :department")})
 public class Suggestion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -83,6 +84,9 @@ public class Suggestion implements Serializable {
     @JoinColumn(name = "id_initiator", referencedColumnName = "id_user")
     @ManyToOne(optional = false)
     private User initiator;
+    /**Содержит ссылку на направление для написания экспертной оценки*/
+    @Transient
+    private Direction direction;
 
     public Suggestion() {
         status = Status.NEW.name();
@@ -216,6 +220,14 @@ public class Suggestion implements Serializable {
 
     public void setInitiator(User idInitiator) {
         this.initiator = idInitiator;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
     
     public boolean isNeedImprovement(){

@@ -67,8 +67,8 @@ public class SuggestionController implements Serializable {
         suggestion.getDirections().add(new Direction());
     }
 
-    public Direction getDirectionByDepartmentOfCurrentUser() {
-        for (Direction direction : suggestion.getDirections()) {
+    public Direction getDirectionFromSuggestionForPeerReview(Suggestion sugg) {
+        for (Direction direction : sugg.getDirections()) {
             if (direction.getDepartment().getDepartmentNumber()
                     == currentUser.getUser().getDepartment().getDepartmentNumber()) {
                 return direction;
@@ -78,7 +78,7 @@ public class SuggestionController implements Serializable {
     }
 
     public String writePeerReview(Suggestion sugg) {
-        getDirectionByDepartmentOfCurrentUser().setEnumStatus(Status.ReceivedPeerRewiew);
+        getDirectionFromSuggestionForPeerReview(sugg).setEnumStatus(Status.ReceivedPeerRewiew);
         save(sugg);
         return null;
     }
@@ -91,7 +91,7 @@ public class SuggestionController implements Serializable {
 
     public String selectForwritePeerReview() {
         ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-        Collection finded = suggestionFacade.getForWritePeerReview(currentUser.getUser().getDepartment());
+        Collection<Suggestion> finded = suggestionFacade.getForWritePeerReview(currentUser.getUser().getDepartment());
         Flash flash = ec.getFlash();
         flash.putNow("finded", finded);
         return "/expert/writePeerReview";

@@ -65,10 +65,12 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
 
     @Override
     public List<Suggestion> getForWritePeerReview(Department department) {
-        //TODO
-        //Status.RequestedPeerRewiew;
-        return em.createNamedQuery("Suggestion.findByDepartment").setParameter("department", department)
-                .getResultList();
+        List<Suggestion> result = em.createNamedQuery("Suggestion.selectForWritePeerReview")
+                .setParameter("department", department).getResultList();
+        for(Suggestion s:result){
+            s.setDirection(s.getDirections().iterator().next());
+        }
+        return result;
     }
 
     @Override

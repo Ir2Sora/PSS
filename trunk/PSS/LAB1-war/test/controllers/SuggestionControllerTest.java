@@ -36,20 +36,6 @@ public class SuggestionControllerTest extends TestCase {
     }
 
     /**
-     * Test of getSuggestion method, of class SuggestionController.
-     */
-    @Test
-    public void testGetSuggestion() {
-        System.out.println(controller.getTitle());
-        SuggestionController instance = new SuggestionController();
-        Suggestion expResult = null;
-        Suggestion result = instance.getSuggestion();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of setSuggestion method, of class SuggestionController.
      */
     @Test
