@@ -139,7 +139,7 @@ public class Department implements Serializable {
             return false;
         }
         Department other = (Department) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if (this.departmentNumber != other.departmentNumber) {
             return false;
         }
         return true;

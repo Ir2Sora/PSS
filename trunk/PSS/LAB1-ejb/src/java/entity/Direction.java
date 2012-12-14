@@ -123,14 +123,14 @@ public class Direction implements Serializable {
     }
 
     public ServiceStatus getServiceStatus() {
-        return ServiceStatus.CHANGED;
+        return serviceStatus;
     }
 
     public void setServiceStatus(ServiceStatus serviceStatus) {
-
+        this.serviceStatus = serviceStatus;
     }
     
-    public boolean isRemove(){
+    public boolean isRemoved(){
         return serviceStatus != null && serviceStatus == ServiceStatus.REMOVED;
     }
     
@@ -152,8 +152,11 @@ public class Direction implements Serializable {
             return false;
         }
         Direction other = (Direction) object;
+        if (this.serviceStatus != null){
+            return this.serviceStatus.equals(other.serviceStatus) && this.tempID == other.tempID;
+        }
         if ((this.directionPK == null && other.directionPK != null) || (this.directionPK != null && !this.directionPK.equals(other.directionPK))) {
-            return this.serviceStatus != null && this.serviceStatus.equals(other.serviceStatus) && this.tempID == other.tempID;
+            return false;
         }
         return true;
     }

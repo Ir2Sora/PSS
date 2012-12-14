@@ -35,16 +35,11 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
     public SuggestionFacade() {
         super(Suggestion.class);
     }
-    
+
     @Override
-    public void edit(Suggestion suggestion){
-        Iterator<Direction> iter = suggestion.getDirections().iterator();
-        while (iter.hasNext()){
-            Direction direction = iter.next();
-            if (direction.isRemove()){
-                directionFacade.remove(direction);
-                iter.remove();
-            } else if (direction.isNew()){
+    public void edit(Suggestion suggestion) {
+        for (Direction direction : suggestion.getDirections()) {
+            if (direction.isNew()) {
                 directionFacade.create(direction);
             }
         }

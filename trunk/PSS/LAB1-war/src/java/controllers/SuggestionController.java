@@ -1,6 +1,8 @@
 package controllers;
 
+import dao.DirectionFacadeLocal;
 import dao.SuggestionFacadeLocal;
+import entity.Department;
 import entity.Direction;
 import entity.Status;
 import entity.Suggestion;
@@ -8,6 +10,9 @@ import entity.User;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -23,6 +28,8 @@ public class SuggestionController implements Serializable {
 
     @Inject
     private SuggestionFacadeLocal suggestionFacade;
+    @Inject
+    private DirectionFacadeLocal directionFacade;
     private Suggestion suggestion;
     @Inject
     private CurrentUserLocal currentUser;
@@ -53,18 +60,13 @@ public class SuggestionController implements Serializable {
     }
 
     public void save(Suggestion sugg) {
-        suggestionFacade.edit(sugg);
-        sendGrowlMessage("Изменения успешно сохранены");
-    }
-
-    public void removeDirection(Direction direction) {
-//        if (direction.getServiceStatus().equals(ServiceStatus.NEW))
-//            suggestion.getDirections().remove(direction);
-//        direction.remove();
-    }
-
-    public void addDirection() {
-        suggestion.getDirections().add(new Direction());
+        if (checkDirections(sugg.getDirections())) {
+            deleteRemovedDirections(sugg.getDirections());
+            suggestionFacade.edit(sugg);
+            sendGrowlMessage("Изменения успешно сохранены");
+        } else {
+            sendGrowlMessage("В отдел нельзя отправить несколько направлений по одной инициативе");
+        }
     }
 
     public Direction getDirectionFromSuggestionForPeerReview(Suggestion sugg) {
@@ -87,6 +89,27 @@ public class SuggestionController implements Serializable {
         sugg.setEnumStatus(Status.Improved);
         save(sugg);
         return null;
+    }
+
+    private boolean checkDirections(Collection<Direction> directions) {
+        Set<Department> temp = new HashSet<Department>();
+        for (Direction d : directions) {
+            if (!d.isRemoved() && !temp.add(d.getDepartment())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void deleteRemovedDirections(Collection<Direction> directions) {
+        Iterator<Direction> iter = directions.iterator();
+        while (iter.hasNext()) {
+            Direction direction = iter.next();
+            if (direction.isRemoved()) {
+                directionFacade.remove(direction);
+                iter.remove();
+            }
+        }
     }
 
     public String selectForwritePeerReview() {

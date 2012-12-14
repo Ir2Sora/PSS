@@ -26,5 +26,5 @@ public class DirectionFacade extends AbstractFacade<Direction> implements Direct
     public DirectionFacade() {
         super(Direction.class);
     }
-    
+      
 }

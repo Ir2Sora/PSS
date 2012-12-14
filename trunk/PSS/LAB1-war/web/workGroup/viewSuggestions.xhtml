@@ -69,21 +69,21 @@
                                     </f:facet>
                                     
                                     <pou:column headerText="#{fieldNames.directionStatus}">                                        
-                                        <pou:selectOneMenu id="serviceStatus" value="#{direction.enumStatus}" disabled="#{direction.isRemove()}">
+                                        <pou:selectOneMenu id="serviceStatus" value="#{direction.enumStatus}" disabled="#{direction.isRemoved()}">
                                             <f:selectItems value="#{sugg.enumStatus.statusesForDirection}"
                                                            var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                                         </pou:selectOneMenu>  
                                     </pou:column>
                                     
                                     <pou:column headerText="#{fieldNames.department}">
-                                        <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemove()}" converter="${departmentConverter}">
+                                        <pou:selectOneMenu id="department" value="#{direction.department}" disabled="#{direction.isRemoved()}" converter="${departmentConverter}">
                                             <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                                         </pou:selectOneMenu>  
                                     </pou:column>
                                     
                                     <pou:column headerText="#{fieldNames.conclusion}">
-                                        <pou:inputTextarea id="conclusion" rows="6" cols="60" value="#{direction.conclusion}" disabled="#{direction.isRemove()}"/>
+                                        <pou:inputTextarea id="conclusion" rows="6" cols="60" value="#{direction.conclusion}" disabled="#{direction.isRemoved()}"/>
                                     </pou:column>
                                     
                                     <pou:column>

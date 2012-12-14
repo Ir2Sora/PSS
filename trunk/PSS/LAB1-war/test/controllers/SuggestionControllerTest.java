@@ -74,46 +74,6 @@ public class SuggestionControllerTest extends TestCase {
     }
 
     /**
-     * Test of removeDirection method, of class SuggestionController.
-     */
-    @Test
-    public void testRemoveDirection() {
-        System.out.println("removeDirection");
-        Direction direction = null;
-        SuggestionController instance = new SuggestionController();
-        instance.removeDirection(direction);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of addDirection method, of class SuggestionController.
-     */
-    @Test
-    public void testAddDirection() {
-        System.out.println("addDirection");
-        SuggestionController instance = new SuggestionController();
-        instance.addDirection();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getDirectionByDepartmentOfCurrentUser method, of class
-     * SuggestionController.
-     */
-    @Test
-    public void testGetDirectionByDepartmentOfCurrentUser() {
-        System.out.println("getDirectionByDepartmentOfCurrentUser");
-        SuggestionController instance = new SuggestionController();
-        Direction expResult = null;
-        Direction result = instance.getDirectionByDepartmentOfCurrentUser();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of writePeerReview method, of class SuggestionController.
      */
     @Test
