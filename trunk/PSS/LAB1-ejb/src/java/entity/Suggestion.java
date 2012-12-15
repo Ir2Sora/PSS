@@ -86,7 +86,7 @@ public class Suggestion implements Serializable {
     private User initiator;
     /**Содержит ссылку на направление для написания экспертной оценки*/
     @Transient
-    private Direction direction;
+    private Direction direction = new Direction();
 
     public Suggestion() {
         status = Status.NEW.name();
@@ -132,7 +132,11 @@ public class Suggestion implements Serializable {
     }
 
     public Status getEnumStatus() {
-        return Status.valueOf(status);
+        try{
+            return Status.valueOf(status);
+        } catch(Exception e){
+            return null;
+        }
     }
 
     public void setStatus(String status) {
@@ -140,7 +144,11 @@ public class Suggestion implements Serializable {
     }
     
     public void setEnumStatus(Status status) {
-        this.status = status.name();
+        if (status == null){
+            this.status = null;
+        } else {
+            this.status = status.name();
+        }
     }
 
     public String getProblem() {
@@ -232,10 +240,6 @@ public class Suggestion implements Serializable {
     
     public boolean isNeedImprovement(){
         return getEnumStatus() == Status.RequireImprovement;
-    }
-    
-    public boolean isRecommended(){
-        return getEnumStatus() == Status.Recommended;
     }
     
     public String getView(){

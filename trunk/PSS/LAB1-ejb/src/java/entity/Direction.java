@@ -86,7 +86,11 @@ public class Direction implements Serializable {
     }
 
     public Status getEnumStatus() {
-        return Status.valueOf(status);
+        try{
+            return Status.valueOf(status);
+        } catch(Exception e){
+            return null;
+        }
     }
 
     public void setStatus(String status) {
@@ -94,7 +98,11 @@ public class Direction implements Serializable {
     }
 
     public void setEnumStatus(Status status) {
-        this.status = status.name();
+        if (status == null){
+            this.status = null;
+        } else {
+            this.status = status.name();
+        }
     }
 
     public String getConclusion() {

@@ -2,11 +2,9 @@ package dao;
 
 import entity.Department;
 import entity.Direction;
-import entity.ServiceStatus;
 import entity.Status;
 import entity.Suggestion;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,7 +21,6 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
 
     @PersistenceContext(unitName = "PSSPU")
     private EntityManager em;
-    
     @Inject
     private DirectionFacadeLocal directionFacade;
 
@@ -62,7 +59,7 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
     public List<Suggestion> getForWritePeerReview(Department department) {
         List<Suggestion> result = em.createNamedQuery("Suggestion.selectForWritePeerReview")
                 .setParameter("department", department).getResultList();
-        for(Suggestion s:result){
+        for (Suggestion s : result) {
             s.setDirection(s.getDirections().iterator().next());
         }
         return result;
@@ -73,14 +70,18 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
         StringBuilder query = new StringBuilder();
         query.append("SELECT s FROM Suggestion s ");
         List<String> conditions = new ArrayList<String>();
+        if (suggestion.getDirection().getEnumStatus() != null) {
+            query.append("JOIN s.directions d ");
+            conditions.add("d.status = :directionStatus");
+        }
         if (suggestion.getDateOfReceipt() != null) {
             conditions.add("s.dateOfReceipt = :dateOfReceipt");
         }
         if (suggestion.getInitiator().getDepartment() != null) {
             conditions.add("s.initiator.department = :department");
         }
-        if (suggestion.getStatus() != null || !suggestion.getStatus().isEmpty()) {
-            conditions.add("s.status = :status");
+        if (suggestion.getEnumStatus() != null) {
+            conditions.add("s.status = :suggestionStatus");
         }
 
         if (!conditions.isEmpty()) {
@@ -100,8 +101,11 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
         if (suggestion.getInitiator().getDepartment() != null) {
             q.setParameter("department", suggestion.getInitiator().getDepartment());
         }
-        if (suggestion.getStatus() != null || !suggestion.getStatus().isEmpty()) {
-            q.setParameter("status", suggestion.getStatus());
+        if (suggestion.getEnumStatus() != null) {
+            q.setParameter("suggestionStatus", suggestion.getStatus());
+        }
+        if (suggestion.getDirection().getEnumStatus() != null) {
+            q.setParameter("directionStatus", suggestion.getDirection().getStatus());
         }
 
         return q.getResultList();
