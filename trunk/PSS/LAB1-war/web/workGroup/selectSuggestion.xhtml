@@ -19,10 +19,16 @@
                     <pou:growl id="growl" autoUpdate="true"/>
                     <h:outputLabel value="Выбериите параметры поиска"/>
                     <h:panelGrid columns="2">
-                        <h:outputLabel value="#{fieldNames.status}"/>
+                        <h:outputLabel value="#{fieldNames.suggestionStatus}"/>
                         <h:selectOneMenu value="#{suggestionController.suggestion.enumStatus}">
                             <f:selectItem noSelectionOption="true" itemValue="#{null}"/>
                             <f:selectItems value="#{suggestionController.suggestion.enumStatus.statusesForSuggestion}"
+                                           var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{fieldNames.directionStatus}"/>
+                        <h:selectOneMenu value="#{suggestionController.suggestion.direction.enumStatus}">
+                            <f:selectItem noSelectionOption="true" itemValue="#{null}"/>
+                            <f:selectItems value="#{suggestionController.suggestion.enumStatus.statusesForDirection}"
                                            var="status" itemValue="#{status}" itemLabel="#{status.description}"/>
                         </h:selectOneMenu>
                         <h:outputLabel value="#{fieldNames.department}"/>
@@ -31,9 +37,8 @@
                             <f:selectItems value="#{departmentController.listDepartments}" var="department"
                                            itemValue="#{department}" itemLabel="#{department.departmentNumber} #{department.shortName}"/>
                         </h:selectOneMenu>
-                        
                         <h:outputLabel value="#{fieldNames.dateOfReceipt}"/>
-                        <pou:calendar value="#{suggestionController.suggestion.dateOfReceipt}" id="date"  pattern="dd.MM.yyyy" required="false"/>  
+                        <pou:calendar value="#{suggestionController.suggestion.searchDateOfReceipt}" id="date"  pattern="dd.MM.yyyy" required="false"/>  
                         <h:message for="date"/>
                     </h:panelGrid>
                     <h:commandButton value="#{buttonNames.find}" action="#{suggestionController.select()}"/>

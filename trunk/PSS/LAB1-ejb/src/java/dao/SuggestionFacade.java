@@ -74,7 +74,7 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
             query.append("JOIN s.directions d ");
             conditions.add("d.status = :directionStatus");
         }
-        if (suggestion.getDateOfReceipt() != null) {
+        if (suggestion.getSearchDateOfReceipt() != null) {
             conditions.add("s.dateOfReceipt = :dateOfReceipt");
         }
         if (suggestion.getInitiator().getDepartment() != null) {
@@ -95,8 +95,8 @@ public class SuggestionFacade extends AbstractFacade<Suggestion> implements Sugg
         }
 
         Query q = em.createQuery(query.toString());
-        if (suggestion.getDateOfReceipt() != null) {
-            q.setParameter("dateOfReceipt", suggestion.getDateOfReceipt());
+        if (suggestion.getSearchDateOfReceipt() != null) {
+            q.setParameter("dateOfReceipt", suggestion.getSearchDateOfReceipt());
         }
         if (suggestion.getInitiator().getDepartment() != null) {
             q.setParameter("department", suggestion.getInitiator().getDepartment());

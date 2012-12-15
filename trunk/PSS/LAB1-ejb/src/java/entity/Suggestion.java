@@ -87,6 +87,9 @@ public class Suggestion implements Serializable {
     /**Содержит ссылку на направление для написания экспертной оценки*/
     @Transient
     private Direction direction = new Direction();
+    /**Содержит дату для поиска*/
+    @Transient
+    private Date searchDateOfReceipt;
 
     public Suggestion() {
         status = Status.NEW.name();
@@ -236,6 +239,14 @@ public class Suggestion implements Serializable {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public Date getSearchDateOfReceipt() {
+        return searchDateOfReceipt;
+    }
+
+    public void setSearchDateOfReceipt(Date searchDateOfReceipt) {
+        this.searchDateOfReceipt = searchDateOfReceipt;
     }
     
     public boolean isNeedImprovement(){
